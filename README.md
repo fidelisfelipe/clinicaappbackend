@@ -3,18 +3,41 @@ projeto VRaptor4 Web
 ##init project
 Windows
 
-	git clone git@github.com:fidelisfelipe/backand-vraptor-heroku.git project_artifactId
-	cd project_artifactId
-	heroku create project_artifactId
-	git init
-	heroku git:remote -a project_artifactId
-	git remote add github local_of_repo_git_hub
-	git remote -v
-	git add .
-	git commit -m"init project"
-	git push heroku master
-	heroku restart
-	heroku open
+//create copy backend java project
+mkdir folderProject
+cd folderProject
+git clone https://github.com/fidelisfelipe/backend-vraptor-heroku .
+import eclipse git project
+config JDK e encode(properties>resourc, properties>java build path)
+
+update files with nameProject
+
+\pom.xml > project.artifactId
+\src\main\webapp\WEB-INF\web.xml
+Web Project Settings > context root > nameProject
+src/main/resources/hibernate.cfg.xml  > jdbc3:postgresql://localhost/nameProject
+run project tomcat
+
+stop tomcat
+
+heroku create nameProject
+
+git init
+
+heroku git:remote -a nameProject
+
+git remote remove origin
+git remote add github git@github.com:fidelisfelipe/nameProject.git
+
+git add .
+git commit -m"init project"
+git push github master
+git push heroku master
+
+heroku restart
+heroku open
+
+
 
 browser show: <b>{"user":"VRaptor!"}</b>
 
@@ -23,3 +46,4 @@ browser show: <b>{"user":"VRaptor!"}</b>
 	select you bd
 	get params of security and update hibernate.cfg.xml
 	create bd: /usuarios/json
+	update file - src/main/resources/hibernate.cfg.xml 
