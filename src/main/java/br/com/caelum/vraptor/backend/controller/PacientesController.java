@@ -55,12 +55,37 @@ public class PacientesController {
 		result.use(Results.json()).from(logic.listAll(), "pacienteList").serialize();
 	}
 	
+	@Consumes(value = "application/json", options = WithoutRoot.class)
+	@Get
+	@Path("/{paciente.id}")
+	public void pacienteUnique(Paciente paciente) {
+		result.use(Results.json()).from(logic.load(paciente.getId()), "paciente").serialize();
+	}
+	
 	@Transactional
 	@Consumes("application/json")
 	@Post
 	@Path("/add")
 	public void add(Paciente paciente) {
 		this.logic.persist(paciente);
+		this.result.use(Results.json()).from("OK").serialize();
+	}
+	
+	@Transactional
+	@Consumes("application/json")
+	@Post
+	@Path("/remove")
+	public void remove(Paciente paciente) {
+		this.logic.remove(paciente);
+		this.result.use(Results.json()).from("OK").serialize();
+	}
+	
+	@Transactional
+	@Consumes("application/json")
+	@Post
+	@Path({"", "/"})
+	public void edit(Paciente paciente) {
+		this.logic.update(paciente);
 		this.result.use(Results.json()).from("OK").serialize();
 	}
 	

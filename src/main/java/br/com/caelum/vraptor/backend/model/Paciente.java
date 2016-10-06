@@ -15,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author Fidelis.Guimaraes
@@ -29,6 +30,7 @@ public class Paciente implements Serializable{
 	private Long id;
 
 	private String nome;
+	@NotNull
 	private String cpf;
 	private String rg;
 	private Date dataNascimento;
@@ -73,7 +75,7 @@ public class Paciente implements Serializable{
 		this.atualizacao = atualizacao;
 	}
 	
-	@Column(length = 80, nullable = false)
+	@Column(length = 80)
 	public String getNome() {
 		return nome;
 	}
@@ -81,7 +83,7 @@ public class Paciente implements Serializable{
 		this.nome = nome;
 	}
 	
-	@Column(length = 89, nullable = false)
+	@Column(length = 89)
 	public String getResponsavel() {
 		return responsavel;
 	}
@@ -99,7 +101,7 @@ public class Paciente implements Serializable{
 		this.dataNascimento = dataNascimento;
 	}
 	
-	@Column(nullable = false)
+	@Column
 	public String getTelefone() {
 		return telefone;
 	}
@@ -107,7 +109,7 @@ public class Paciente implements Serializable{
 		this.telefone = telefone;
 	}
 	
-	@Column(length = 20, nullable = false)
+	@Column(length = 20)
 	public String getSexo() {
 		return sexo;
 	}
@@ -117,7 +119,7 @@ public class Paciente implements Serializable{
 		this.sexo = sexo;
 	}
 	
-	@Column(length = 20, nullable = false)
+	@Column(length = 20)
 	public String getEstadoCivil() {
 		return estadoCivil;
 	}
@@ -125,7 +127,7 @@ public class Paciente implements Serializable{
 		this.estadoCivil = estadoCivil;
 	}
 	
-	@Column(length = 80, nullable = false)
+	@Column(length = 80)
 	public String getNaturalidade() {
 		return naturalidade;
 	}
@@ -133,7 +135,7 @@ public class Paciente implements Serializable{
 		this.naturalidade = naturalidade;
 	}
 	
-	@Column(length = 80, nullable = false)
+	@Column(length = 80)
 	public String getProfissao() {
 		return profissao;
 	}
@@ -141,7 +143,7 @@ public class Paciente implements Serializable{
 		this.profissao = profissao;
 	}
 	
-	@Column(length = 11, nullable = false)
+	@Column(length = 11)
 	public String getCpf() {
 		return cpf;
 	}
@@ -149,7 +151,7 @@ public class Paciente implements Serializable{
 		this.cpf = cpf;
 	}
 	
-	@Column(length = 20, nullable = false)
+	@Column(length = 20)
 	public String getRg() {
 		return rg;
 	}
