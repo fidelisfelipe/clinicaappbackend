@@ -45,7 +45,6 @@ public class Menu implements Serializable{
 	private String name;
 	private String show;
 	private String url;
-	private List<View> views;
 	private Date data = new Date();
 	private Date atualizacao = new Date();
 	
@@ -102,15 +101,6 @@ public class Menu implements Serializable{
 
 	public void setAtualizacao(Date atualizacao) {
 		this.atualizacao = atualizacao;
-	}
-
-	@ManyToMany(fetch=FetchType.LAZY)
-	@JoinTable(name="ta_menu_view", joinColumns={@javax.persistence.JoinColumn(name="id_menu")}, inverseJoinColumns={@javax.persistence.JoinColumn(name="id_view")})
-	public List<View> getViews() {
-		return views;
-	}
-	public void setViews(List<View> views) {
-		this.views = views;
 	}
 	
 }

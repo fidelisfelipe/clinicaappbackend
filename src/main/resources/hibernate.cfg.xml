@@ -44,7 +44,10 @@
 		<!-- entidades -->
 
 		<mapping class="br.com.caelum.vraptor.backend.model.Test" />
-		<mapping class="br.com.caelum.vraptor.backend.model.View" />
+		<mapping class="br.com.caelum.vraptor.backend.model.TipoExame" />
+		<mapping class="br.com.caelum.vraptor.backend.model.Exame" />
+		<mapping class="br.com.caelum.vraptor.backend.model.ResultadoExame" />
+		<mapping class="br.com.caelum.vraptor.backend.model.Paciente" />
 		<mapping class="br.com.caelum.vraptor.backend.model.Menu" />
 		<mapping class="br.com.caelum.vraptor.backend.model.Recurso" />
 		<mapping class="br.com.caelum.vraptor.backend.model.Perfil" />

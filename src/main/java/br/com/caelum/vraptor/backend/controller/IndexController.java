@@ -85,10 +85,23 @@ public class IndexController {
 	
 	@Consumes(value = "application/json", options = WithoutRoot.class)
 	@Get
-	@Path("/client/info")
-	public void clientsInfo() {
-		
+	@Path("/estadoCivilList")
+	public void estadoCivilList() {
+		List<String> list = new ArrayList<String>();
+		list.add("Solteiro(a)");
+		list.add("Casado(a)");
+		list.add("Divorciado(a)");
+		result.use(Results.json()).from(list, "estadoCivilList").serialize();
 	}
 	
+	@Consumes(value = "application/json", options = WithoutRoot.class)
+	@Get
+	@Path("/sexoList")
+	public void sexoList() {
+		List<String> list = new ArrayList<String>();
+		list.add("Masculino");
+		list.add("Feminino");
+		result.use(Results.json()).from(list, "sexoList").serialize();
+	}
 	
 }
