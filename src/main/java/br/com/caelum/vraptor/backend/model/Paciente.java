@@ -17,6 +17,12 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Email;
+
+import br.com.caelum.vraptor.Convert;
+import br.com.caelum.vraptor.converter.CalendarConverter;
+import br.com.caelum.vraptor.converter.DateConverter;
+
 /**
  * @author Fidelis.Guimaraes
  */
@@ -33,6 +39,7 @@ public class Paciente implements Serializable{
 	@NotNull
 	private String cpf;
 	private String rg;
+	private String email;
 	private Date dataNascimento;
 	private String responsavel;
 	private String telefone;
@@ -93,7 +100,7 @@ public class Paciente implements Serializable{
 	
 	
 	@Column(name = "dataNascimento")
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	public Date getDataNascimento() {
 		return dataNascimento;
 	}
@@ -159,6 +166,15 @@ public class Paciente implements Serializable{
 		this.rg = rg;
 	}
 	
+	
+	@Column(length = 80)
+	@Email
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 	@ManyToMany(fetch=FetchType.LAZY)
 	@JoinTable(name="ta_paciente_resultado", joinColumns={@javax.persistence.JoinColumn(name="id_paciente")}, inverseJoinColumns={@javax.persistence.JoinColumn(name="id_resultado")})
 	public List<ResultadoExame> getResultadoList() {

@@ -75,8 +75,10 @@ public class PacientesController {
 	@Consumes("application/json")
 	@Post
 	@Path("/remove")
-	public void remove(Paciente paciente) {
-		this.logic.remove(paciente);
+	public void remove(Long id) {
+		Paciente remove = new Paciente();
+		remove.setId(id);
+		this.logic.remove(remove);
 		this.result.use(Results.json()).from("OK").serialize();
 	}
 	
