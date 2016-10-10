@@ -16,7 +16,7 @@
 <!-- 		<property name="format_sql">false</property> -->
 
 		<!-- heroku -->
-
+		
 		<property name="hibernate.connection.url">jdbc3:postgresql://ec2-54-243-195-160.compute-1.amazonaws.com/ddo8p69oak24kv</property>
 		<property name="hibernate.connection.username">qqlbcxbmkgegqy</property>
 		<property name="hibernate.connection.password">RGU8qgnvF3-1VAwrEwEzDVhfz9</property>
