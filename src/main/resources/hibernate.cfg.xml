@@ -52,6 +52,7 @@
 		<mapping class="br.com.caelum.vraptor.backend.model.Recurso" />
 		<mapping class="br.com.caelum.vraptor.backend.model.Perfil" />
 		<mapping class="br.com.caelum.vraptor.backend.model.Usuario" />
+		<mapping class="br.com.caelum.vraptor.backend.model.Login" />
 		
 
 	</session-factory>
