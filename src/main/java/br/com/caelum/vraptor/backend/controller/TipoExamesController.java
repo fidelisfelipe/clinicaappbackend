@@ -62,6 +62,13 @@ public class TipoExamesController {
 		result.use(Results.json()).from(logic.load(tipoExame.getId()), "tipoExame").serialize();
 	}
 	
+	@Consumes(value = "application/json", options = WithoutRoot.class)
+	@Get
+	@Path("/por/paciente/{id}")
+	public void tipoExameUnique(Long id) {
+		result.use(Results.json()).from(logic.listAll(), "tipoExameList").serialize();
+	}
+	
 	@Transactional
 	@Consumes("application/json")
 	@Post

@@ -17,7 +17,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * @author fidelis.guimaraes
@@ -32,15 +31,12 @@ public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long id;
 	private String nome;
-	@NotEmpty
-	private String cpf;
-	@NotEmpty
-	private String senha;
-	@NotEmpty
-	private String telefone;
-	@NotEmpty
 	private String email;
-	@NotEmpty
+	private String senha;
+	
+	private String cpf;
+	private String telefone;
+
 	private List<Perfil> perfis;
 
 	private Date data = new Date();
@@ -68,7 +64,7 @@ public class Usuario implements Serializable {
 		this.nome = nome;
 	}
 
-	@Column(length = 11, nullable = false)
+	@Column(length = 11)
 	public String getCpf() {
 		if(cpf != null){
 			cpf = cpf.replace(".", "").replace("-", "");
@@ -76,7 +72,7 @@ public class Usuario implements Serializable {
 		return cpf;
 	}
 
-	@Column(length = 10, nullable = false)
+	@Column(length = 10)
 	public String getTelefone() {
 		if(telefone != null){
 			telefone = telefone.replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
@@ -91,7 +87,7 @@ public class Usuario implements Serializable {
 	}
 	
 	@Email
-	@Column(length = 80, nullable = false)
+	@Column(length = 80)
 	public String getEmail() {
 		return email;
 	}
@@ -106,7 +102,7 @@ public class Usuario implements Serializable {
 		this.cpf = cpf;
 	}
 
-	@Column(length = 30, nullable = false)
+	@Column(length = 30)
 	public String getSenha() {
 		return senha;
 	}
@@ -125,7 +121,7 @@ public class Usuario implements Serializable {
 		this.perfis = perfis;
 	}
 
-	@Column(name = "ativo", nullable = false, columnDefinition = "BOOLEAN DEFAULT false")
+	@Column(name = "ativo", columnDefinition = "BOOLEAN DEFAULT false")
 	public boolean getAtivo() {
 		return ativo;
 	}
