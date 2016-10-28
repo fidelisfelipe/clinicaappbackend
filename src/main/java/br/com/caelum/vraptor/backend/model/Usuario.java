@@ -15,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.validator.constraints.Email;
 
@@ -33,6 +34,7 @@ public class Usuario implements Serializable {
 	private String nome;
 	private String email;
 	private String senha;
+	private boolean isAuthorized;
 	
 	private String cpf;
 	private String telefone;
@@ -67,12 +69,12 @@ public class Usuario implements Serializable {
 	@Column(length = 11)
 	public String getCpf() {
 		if(cpf != null){
-			cpf = cpf.replace(".", "").replace("-", "");
+			cpf = cpf.replace(".", "").replace("-", "").replace(" ", "");
 		}
 		return cpf;
 	}
 
-	@Column(length = 10)
+	@Column(length = 15)
 	public String getTelefone() {
 		if(telefone != null){
 			telefone = telefone.replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
@@ -149,5 +151,16 @@ public class Usuario implements Serializable {
 	public void setAtualizacao(Date atualizacao) {
 		this.atualizacao = atualizacao;
 	}
+
+	@Transient
+	public boolean isAuthorized() {
+		return isAuthorized;
+	}
+
+	public void setAuthorized(boolean isAuthorized) {
+		this.isAuthorized = isAuthorized;
+	}
+	
+	
 	
 }
