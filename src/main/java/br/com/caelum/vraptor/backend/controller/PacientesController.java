@@ -88,7 +88,7 @@ public class PacientesController {
 	@Path({"", "/"})
 	public void edit(Paciente paciente) {
 		this.logic.update(paciente);
-		this.result.use(Results.json()).from("OK").serialize();
+		result.use(Results.json()).from(logic.load(paciente.getId()), "paciente").serialize();
 	}
 	
 }
