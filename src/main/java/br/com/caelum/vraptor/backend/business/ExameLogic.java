@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import br.com.caelum.vraptor.backend.business.exception.NegocioException;
 import br.com.caelum.vraptor.backend.dao.impl.DefaultExameDao;
 import br.com.caelum.vraptor.backend.model.Exame;
+import br.com.caelum.vraptor.backend.model.TipoExame;
 
 public class ExameLogic {
 	private static final String INFORME_O_CAMPO_OBRIGATORIO = "Informe o campo obrigatório";
@@ -42,6 +43,10 @@ public class ExameLogic {
 	
 	public Exame existe(Exame exame){
 		return exames.existe(exame);
+	}
+	
+	public List<Exame> por (TipoExame tipo){		
+		return exames.por(tipo);
 	}
 	
 	public void remove(Exame exame) {
