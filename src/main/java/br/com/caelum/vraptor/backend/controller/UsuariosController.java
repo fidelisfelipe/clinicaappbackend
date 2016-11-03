@@ -63,9 +63,8 @@ public class UsuariosController {
 	@Post
 	@Path("/novo")
 	public void index(Usuario usuario){
-		result.on(HibernateException.class).forwardTo(this).fail();
 		logic.persist(usuario);
-		result.forwardTo(this).index();
+		this.result.use(Results.http()).setStatusCode(200);
 	}
 	@Transactional
 	@Consumes("application/json")
@@ -85,6 +84,8 @@ public class UsuariosController {
 				this.result.use(Results.http()).setStatusCode(401);
 				
 			}
+		}else{
+			this.result.use(Results.http()).setStatusCode(401);
 		}
 		
 		
@@ -103,7 +104,7 @@ public class UsuariosController {
 		//TODO: logic login not implemented
 			Usuario existe = logic.existe(usuarioWeb);
 			if (existe == null){
-				usuarioWeb.setAtivo(true);
+				usuarioWeb.setAtivo(true);//TODO: criar tela para autorização
 				logic.persist(usuarioWeb);
 				
 				System.out.println("sign in success!");
