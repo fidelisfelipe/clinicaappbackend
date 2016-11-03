@@ -48,14 +48,14 @@ public class TipoExamesController {
 		this.logic = logic;
 	}
 	
-	@Consumes(value = "application/json", options = WithoutRoot.class)
+	@Consumes(value = "application/json")
 	@Get
 	@Path({"", "/"})
 	public void tipoExameList() {
 		result.use(Results.json()).from(logic.listAll(), "tipoExameList").serialize();
 	}
 	
-	@Consumes(value = "application/json", options = WithoutRoot.class)
+	@Consumes(value = "application/json")
 	@Get
 	@Path("/{tipoExame.id}")
 	public void tipoExameUnique(TipoExame tipoExame) {

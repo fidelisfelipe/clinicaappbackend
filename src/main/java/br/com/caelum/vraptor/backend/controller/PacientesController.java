@@ -1,6 +1,9 @@
 package br.com.caelum.vraptor.backend.controller;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -8,12 +11,19 @@ import javax.transaction.Transactional;
 
 import br.com.caelum.vraptor.Consumes;
 import br.com.caelum.vraptor.Controller;
+import br.com.caelum.vraptor.Delete;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.backend.business.ExameLogic;
 import br.com.caelum.vraptor.backend.business.PacienteLogic;
+import br.com.caelum.vraptor.backend.business.ResultadoExameLogic;
+import br.com.caelum.vraptor.backend.business.TipoExameLogic;
+import br.com.caelum.vraptor.backend.model.Exame;
 import br.com.caelum.vraptor.backend.model.Paciente;
+import br.com.caelum.vraptor.backend.model.ResultadoExame;
+import br.com.caelum.vraptor.backend.model.TipoExame;
 import br.com.caelum.vraptor.http.route.Router;
 import br.com.caelum.vraptor.serialization.gson.WithoutRoot;
 import br.com.caelum.vraptor.view.Results;
@@ -34,18 +44,27 @@ public class PacientesController {
 	private Router router;
 	@Inject
 	private PacienteLogic logic;
+	@Inject
+	private TipoExameLogic logicTipoExame;
+	@Inject
+	private ExameLogic logicExame;
+	@Inject
+	private ResultadoExameLogic logicResultadoExame;
 	/**
 	 * @deprecated CDI eyes only
 	 */
 	protected PacientesController() {
-		this(null, null, null);
+		this(null, null, null, null, null, null);
 	}
 	
 	@Inject
-	public PacientesController(Result result, HttpServletRequest req, PacienteLogic logic) {
+	public PacientesController(Result result, HttpServletRequest req, PacienteLogic logic, TipoExameLogic logicTipoExame, ExameLogic logicExame, ResultadoExameLogic logicResultadoExame) {
 		this.result = result;
 		this.req = req;
 		this.logic = logic;
+		this.logicTipoExame = logicTipoExame;
+		this.logicExame = logicExame;
+		this.logicResultadoExame = logicResultadoExame;
 	}
 	
 	@Consumes(value = "application/json", options = WithoutRoot.class)
@@ -61,6 +80,76 @@ public class PacientesController {
 	public void pacienteUnique(Paciente paciente) {
 		result.use(Results.json()).from(logic.load(paciente.getId()), "paciente").serialize();
 	}
+	
+	@Consumes(value = "application/json")
+	@Post
+	@Path("/exameList/por/paciente/por/tipoExame")
+	public void tipoExameListPorPaciente(Long pacienteId, Long tipoExameId) {
+		//retorna os exames do paciente
+		List<ResultadoExame> list = logic.load(pacienteId).getResultadoList();
+		result.use(Results.json()).from(list, "resultadoExameList").serialize();
+	}
+	@Consumes(value = "application/json", options = WithoutRoot.class)
+	@Get
+	@Path("/tipoExameList")
+	public void exameList(Paciente paciente) {
+		//retorna os exames do paciente
+		//logic.load(paciente.getId()).getResultadoList()
+		result.use(Results.json()).from(logicTipoExame.listAll(), "tipoExameList").serialize();
+	}
+	
+	@Consumes(value = "application/json")
+	@Post
+	@Path("/resultados/por/tipoExame")
+	public void exameList(Long pacienteId, Long tipoExameId) {
+		//retorna os exames do paciente
+		//logic.load(paciente.getId()).getResultadoList()
+		List<ResultadoExame> geral = logic.load(pacienteId).getResultadoList();
+		TipoExame tipo = logicTipoExame.load(tipoExameId);
+		List<ResultadoExame> resultadoExameList = new ArrayList<ResultadoExame>();
+		for (ResultadoExame resultado : geral) {
+			if(resultado.getExame() != null 
+					&& resultado.getExame().getTipo() != null 
+					&& resultado.getExame().getTipo().equals(tipo)){
+				resultadoExameList.add(resultado);
+			}
+		}
+		
+		result.use(Results.json()).from(resultadoExameList, "resultadoExameList").recursive().serialize();
+	}
+	@Transactional
+	@Consumes("application/json")
+	@Post
+	@Path("/resultado/add")
+	public void resultadoAdd(ResultadoExame resultado, Paciente paciente) {
+		//cast persistence
+		resultado.setExame(logicExame.load(resultado.getExame().getId()));
+		//persiste
+		this.logicResultadoExame.persist(resultado);
+		//load paciente
+		paciente = logic.load(paciente.getId());
+		//set resultado
+		paciente.getResultadoList().add(resultado);
+		//vincula
+		logic.update(paciente);
+		
+		this.result.use(Results.json()).from("OK").serialize();
+	}
+	@Transactional
+	@Consumes("application/json")
+	@Post
+	@Path("/resultado/remove")
+	public void resultadoRemove(ResultadoExame resultado, Paciente paciente) {
+		//cast for persistent bag
+		resultado = logicResultadoExame.load(resultado.getId());
+		paciente = logic.load(paciente.getId());
+		paciente.getResultadoList().remove(resultado);
+		logic.update(paciente);
+		this.logicResultadoExame.remove(resultado);
+		
+		this.result.use(Results.json()).from("OK").serialize();
+	}
+	
 	
 	@Transactional
 	@Consumes("application/json")

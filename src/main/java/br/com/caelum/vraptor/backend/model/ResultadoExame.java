@@ -24,7 +24,7 @@ public class ResultadoExame implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private Long id;
 	private String valor;
-	private Date data = new Date();
+	private Date data;
 	private Exame exame;
 	
 	@Id
@@ -46,8 +46,8 @@ public class ResultadoExame implements Serializable{
 		this.valor = valor;
 	}
 	
-	@Column(name = "cadastro", updatable = false)
-	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "cadastro", updatable = true)
+	@Temporal(TemporalType.DATE)
 	public Date getData() {
 		return data;
 	}
