@@ -100,6 +100,14 @@ public class PacientesController {
 	
 	@Consumes(value = "application/json")
 	@Post
+	@Path("/resultados/total")
+	public void exameListTotal(Long pacienteId) {
+		Integer resultadoExameListTotal = logic.load(pacienteId).getResultadoList().size();
+		result.use(Results.json()).from(resultadoExameListTotal, "resultadoExameListTotal").serialize();
+	}
+	
+	@Consumes(value = "application/json")
+	@Post
 	@Path("/resultados/por/tipoExame")
 	public void exameList(Long pacienteId, Long tipoExameId) {
 		//retorna os exames do paciente
@@ -117,6 +125,9 @@ public class PacientesController {
 		
 		result.use(Results.json()).from(resultadoExameList, "resultadoExameList").recursive().serialize();
 	}
+	
+	
+	
 	@Transactional
 	@Consumes("application/json")
 	@Post

@@ -66,7 +66,7 @@ public class Usuario implements Serializable {
 		this.nome = nome;
 	}
 
-	@Column(length = 11)
+	@Column(length = 14)
 	public String getCpf() {
 		if(cpf != null){
 			cpf = cpf.replace(".", "").replace("-", "").replace(" ", "");
@@ -74,7 +74,7 @@ public class Usuario implements Serializable {
 		return cpf;
 	}
 
-	@Column(length = 15)
+	@Column(length = 16)
 	public String getTelefone() {
 		if(telefone != null){
 			telefone = telefone.replace("(", "").replace(")", "").replace("-", "").replace(" ", "");

@@ -62,4 +62,5 @@ public class PacienteLogic {
 			throw new NegocioException(INFORME_O_CAMPO_OBRIGATORIO);
 		}
 	}
+
 }

@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 import br.com.caelum.vraptor.backend.model.Paciente;
+import br.com.caelum.vraptor.backend.model.ResultadoExame;
 import br.com.caelum.vraptor.backend.util.PreconditionUtil;
 
 /**
