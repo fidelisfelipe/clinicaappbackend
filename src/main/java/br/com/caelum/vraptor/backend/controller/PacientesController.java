@@ -1,6 +1,9 @@
 package br.com.caelum.vraptor.backend.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -146,17 +149,24 @@ public class PacientesController {
 		paciente = logic.load(paciente.getId());
 		List<ResultadoExame> list = paciente.getResultadoList();
 		boolean exist = false;
+
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+		
+		
 		for (ResultadoExame resultadoExame : list) {
-			if (resultadoExame.getValor().equals(resultado.getValor())
-					&& resultadoExame.getData().equals(resultado.getData())
-					&& resultadoExame.getExame().getId()
-							.equals(resultado.getExame().getId())) {
-				exist = true;
+			
+			boolean existeValor = resultadoExame.getValor().equals(resultado.getValor());
+			boolean existeData = resultadoExame.getData().equals(resultado.getData());
+			boolean existeExame = resultadoExame.getExame().getId() == resultado.getExame().getId();
+
+			if (existeValor && existeData && existeExame) {
+				exist = true;				
+				this.result.use(Results.http()).setStatusCode(406);//já existe-não aceito
+				break;
 			}
 		}
-
-		if (!exist) {
-
+		
+		if(!exist){
 			// cast persistence
 			resultado.setExame(logicExame.load(resultado.getExame().getId()));
 
@@ -167,8 +177,6 @@ public class PacientesController {
 			// vincula
 			logic.update(paciente);
 			this.result.use(Results.json()).from("OK").serialize();
-		}else{
-			this.result.use(Results.http()).setStatusCode(406);//já existe-não aceito
 		}
 
 	}
