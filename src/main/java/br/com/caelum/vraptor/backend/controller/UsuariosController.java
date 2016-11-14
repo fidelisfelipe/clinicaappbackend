@@ -125,6 +125,17 @@ public class UsuariosController {
 		if(token != null)
 			this.result.use(Results.json()).from(new Usuario()).serialize();
 	}
+	
+	@Post
+	@Path({"/",""})
+	public void update(Usuario usuario) {
+		result.on(HibernateException.class).forwardTo(this).fail();
+		Usuario persistente = logic.load(usuario.getId());
+		persistente.setNome(usuario.getNome());
+		logic.update(usuario);
+		this.result.use(Results.json()).from(usuario, "userCurrent").serialize();
+	}
+	
 	private void signValidation(){
 		validator.onErrorSendBadRequest();
 	}
@@ -135,6 +146,7 @@ public class UsuariosController {
 	@Get
 	@Path("/{id}")
 	public void index(Integer id){
+		this.result.use(Results.json()).from(logic.load(id), "userCurrent").serialize();
 	}
 	
 	@Get
