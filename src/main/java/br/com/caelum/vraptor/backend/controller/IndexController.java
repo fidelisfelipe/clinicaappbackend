@@ -103,5 +103,6 @@ public class IndexController {
 		list.add("Feminino");
 		result.use(Results.json()).from(list, "sexoList").serialize();
 	}
+
 	
 }

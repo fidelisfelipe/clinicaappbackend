@@ -1,6 +1,9 @@
 package br.com.caelum.vraptor.backend.controller;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -72,6 +75,20 @@ public class ExamesController {
 	@Path("/por/tipo/{tipo.id}")
 	public void exameUnique(TipoExame tipo) {		
 		result.use(Results.json()).from(logic.por(tipo), "exameAssociadoList").serialize();
+	}
+	
+	
+	@Consumes(value = "application/json", options = WithoutRoot.class)
+	@Get
+	@Path("/siglaalllist")
+	public void siglaAllList() {
+		List<Exame> list = logic.listAll();
+		List<String> siglaAllList = new ArrayList<String>();
+		
+		for (Exame exame : list) {
+			siglaAllList.add(exame.getSigla());
+		}
+		result.use(Results.json()).from(list, "siglaAllList").serialize();
 	}
 	
 	@Transactional

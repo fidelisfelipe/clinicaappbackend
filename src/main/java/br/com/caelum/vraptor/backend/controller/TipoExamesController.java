@@ -1,6 +1,9 @@
 package br.com.caelum.vraptor.backend.controller;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
