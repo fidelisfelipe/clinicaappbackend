@@ -60,7 +60,7 @@ public class ExamesController {
 	@Get
 	@Path({"", "/"})
 	public void exameList() {
-		result.use(Results.json()).from(logic.listAll(), "exameList").serialize();
+		result.use(Results.json()).from(logic.listAll(), "exameList").recursive().serialize();
 	}
 	
 	@Consumes(value = "application/json", options = WithoutRoot.class)
