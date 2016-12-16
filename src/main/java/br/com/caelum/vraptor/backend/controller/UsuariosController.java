@@ -105,6 +105,7 @@ public class UsuariosController {
 			Usuario existe = logic.existe(usuarioWeb);
 			if (existe == null){
 				usuarioWeb.setAtivo(true);//TODO: criar tela para autorização
+				usuarioWeb.setAuthorized(true);
 				logic.persist(usuarioWeb);
 				
 				System.out.println("sign in success!");
@@ -125,14 +126,16 @@ public class UsuariosController {
 		if(token != null)
 			this.result.use(Results.json()).from(new Usuario()).serialize();
 	}
-	
+	@Transactional
+	@Consumes("application/json")
 	@Post
 	@Path({"/",""})
 	public void update(Usuario usuario) {
-		result.on(HibernateException.class).forwardTo(this).fail();
+		//result.on(HibernateException.class).forwardTo(this).fail();
 		Usuario persistente = logic.load(usuario.getId());
 		persistente.setNome(usuario.getNome());
 		logic.update(usuario);
+		usuario.setAuthorized(true);
 		this.result.use(Results.json()).from(usuario, "userCurrent").serialize();
 	}
 	
