@@ -66,7 +66,7 @@ public class UsuariosController {
 		logic.persist(usuario);
 		this.result.use(Results.http()).setStatusCode(200);
 	}
-	@Transactional
+
 	@Consumes("application/json")
 	@Post
 	@Path("/login")

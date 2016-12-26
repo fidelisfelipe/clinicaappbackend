@@ -35,7 +35,6 @@ public class DefaultUsuarioDao extends DefaultGenericDao<Usuario> implements
 		PreconditionUtil.isNotNullDoThrowsIllegalArgumentException(usuario);
 		return (Usuario) getSession().createCriteria(Usuario.class)
 				.add(Restrictions.eq("email", usuario.getEmail()))
-				.add(Restrictions.eq("senha", usuario.getSenha()))
-				.add(Restrictions.eq("ativo", true)).uniqueResult();
+				.add(Restrictions.eq("senha", usuario.getSenha())).uniqueResult();
 	}
 }
