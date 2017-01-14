@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -124,7 +125,10 @@ public class PacientesController {
 	public void exameList(Long pacienteId, Long tipoExameId) {
 		// retorna os exames do paciente
 		// logic.load(paciente.getId()).getResultadoList()
-		List<ResultadoExame> geral = logic.load(pacienteId).getResultadoList();
+		Paciente paciente = logic.load(pacienteId);
+		List<ResultadoExame> geral = paciente.getResultadoList() != null 
+				&& !paciente.getResultadoList().isEmpty() ? 
+						paciente.getResultadoList() : Collections.EMPTY_LIST;
 		TipoExame tipo = logicTipoExame.load(tipoExameId);
 		List<ResultadoExame> resultadoExameList = new ArrayList<ResultadoExame>();
 		for (ResultadoExame resultado : geral) {
@@ -139,12 +143,12 @@ public class PacientesController {
 				.from(resultadoExameList, "resultadoExameList").recursive()
 				.serialize();
 	}
-
 	@Transactional
 	@Consumes("application/json")
 	@Post
 	@Path("/resultado/add")
-	public void resultadoAdd(ResultadoExame resultado, Paciente paciente) {
+	
+	public void resultadoAdd(ResultadoExame resultado, Paciente paciente, boolean clearValue) {
 		// load paciente
 		paciente = logic.load(paciente.getId());
 		List<ResultadoExame> list = paciente.getResultadoList();
@@ -152,19 +156,31 @@ public class PacientesController {
 
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 		
-		
+		ResultadoExame remove = null;
 		for (ResultadoExame resultadoExame : list) {
 			
-			boolean existeValor = resultadoExame.getValor().equals(resultado.getValor());
+			
 			boolean existeData = resultadoExame.getData().equals(resultado.getData());
 			boolean existeExame = resultadoExame.getExame().getId() == resultado.getExame().getId();
-
-			if (existeValor && existeData && existeExame) {
-				exist = true;				
-				this.result.use(Results.http()).setStatusCode(406);//já existe-não aceito
+			
+			
+			boolean existeValor = resultadoExame.getValor().equals(resultado.getValor());
+			
+			if (existeValor && existeData && existeExame) {			
+				//remove valor qnd a requisição solicita
+				if(clearValue){
+					remove = resultadoExame;
+					paciente.getResultadoList().remove(remove);
+					logicResultadoExame.delete(remove);
+					logic.update(paciente);
+					
+					exist = true;
+				}
+				this.result.use(Results.json()).from("OK").serialize();
 				break;
 			}
 		}
+		
 		
 		if(!exist){
 			// cast persistence

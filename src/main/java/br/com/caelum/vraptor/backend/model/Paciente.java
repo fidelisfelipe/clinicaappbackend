@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -175,7 +176,7 @@ public class Paciente implements Serializable{
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	@ManyToMany(fetch=FetchType.LAZY)
+	@ManyToMany(fetch=FetchType.LAZY, cascade= CascadeType.ALL)
 	@JoinTable(name="ta_paciente_resultado", joinColumns={@javax.persistence.JoinColumn(name="id_paciente")}, inverseJoinColumns={@javax.persistence.JoinColumn(name="id_resultado")})
 	public List<ResultadoExame> getResultadoList() {
 		return resultadoList;
