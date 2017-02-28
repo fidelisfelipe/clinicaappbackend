@@ -5,9 +5,9 @@
 
 		<!-- acesso local -->
 		
-<!--		<property name="hibernate.connection.url">jdbc3:postgresql://localhost/clinicabackend</property>-->
-<!--		<property name="hibernate.connection.username">postgres</property>-->
-<!--		<property name="hibernate.connection.password">postgres</property>-->
+		<property name="hibernate.connection.url">jdbc3:postgresql://localhost/clinicabackend</property>
+		<property name="hibernate.connection.username">postgres</property>
+		<property name="hibernate.connection.password">postgres</property>
 
 		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
@@ -17,9 +17,9 @@
 
 		<!-- heroku -->
 		
- 		<property name="hibernate.connection.url">jdbc3:postgresql://ec2-54-243-190-100.compute-1.amazonaws.com/dlqcueu9hspgc</property> 
- 		<property name="hibernate.connection.username">dnmnugwmtcfyqm</property> 
- 		<property name="hibernate.connection.password">srie-tJGq03qHuzYsULjQ_zhjA</property> 
+<!--  		<property name="hibernate.connection.url">jdbc3:postgresql://ec2-54-243-190-100.compute-1.amazonaws.com/dlqcueu9hspgc</property>  -->
+<!--  		<property name="hibernate.connection.username">dnmnugwmtcfyqm</property>  -->
+<!--  		<property name="hibernate.connection.password">srie-tJGq03qHuzYsULjQ_zhjA</property>  -->
 
 <!-- 		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property> -->
 <!-- 		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property> -->
@@ -47,7 +47,10 @@
 		<mapping class="br.com.caelum.vraptor.backend.model.TipoExame" />
 		<mapping class="br.com.caelum.vraptor.backend.model.Exame" />
 		<mapping class="br.com.caelum.vraptor.backend.model.ResultadoExame" />
+		
 		<mapping class="br.com.caelum.vraptor.backend.model.Paciente" />
+		<mapping class="br.com.caelum.vraptor.backend.model.Consulta" />
+
 		<mapping class="br.com.caelum.vraptor.backend.model.Menu" />
 		<mapping class="br.com.caelum.vraptor.backend.model.Recurso" />
 		<mapping class="br.com.caelum.vraptor.backend.model.Perfil" />

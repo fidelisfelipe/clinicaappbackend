@@ -13,16 +13,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Email;
-
-import br.com.caelum.vraptor.Convert;
-import br.com.caelum.vraptor.converter.CalendarConverter;
-import br.com.caelum.vraptor.converter.DateConverter;
 
 /**
  * @author Fidelis.Guimaraes
@@ -51,6 +48,7 @@ public class Paciente implements Serializable{
 	private Date data = new Date();
 	private Date atualizacao = new Date();
 	private List<ResultadoExame> resultadoList;
+	private List<Consulta> consultaList;
 	
 	@Id
 	@SequenceGenerator(name="seq_paciente", sequenceName="seq_paciente", allocationSize=1)
@@ -176,6 +174,7 @@ public class Paciente implements Serializable{
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	@ManyToMany(fetch=FetchType.LAZY, cascade= CascadeType.ALL)
 	@JoinTable(name="ta_paciente_resultado", joinColumns={@javax.persistence.JoinColumn(name="id_paciente")}, inverseJoinColumns={@javax.persistence.JoinColumn(name="id_resultado")})
 	public List<ResultadoExame> getResultadoList() {
@@ -183,6 +182,15 @@ public class Paciente implements Serializable{
 	}
 	public void setResultadoList(List<ResultadoExame> resultadoList) {
 		this.resultadoList = resultadoList;
+	}
+	
+	@ManyToMany(fetch=FetchType.LAZY, cascade= CascadeType.ALL)
+	@JoinTable(name="ta_paciente_consulta", joinColumns={@javax.persistence.JoinColumn(name="id_paciente")}, inverseJoinColumns={@javax.persistence.JoinColumn(name="id_consulta")})
+	public List<Consulta> getConsultaList() {
+		return consultaList;
+	}
+	public void setConsultaList(List<Consulta> consultaList) {
+		this.consultaList = consultaList;
 	}
 	
 	

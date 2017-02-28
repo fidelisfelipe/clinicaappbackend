@@ -36,19 +36,17 @@ public class DefaultUsuarioDaoTest extends GenericTest {
 		//given
 		DefaultUsuarioDao daoTest = new DefaultUsuarioDao(session);
 		Usuario usuario = new Usuario();
-		usuario.setNome("nome");
+		usuario.setNome("test");
+		usuario.setSenha("test");
+		usuario.setEmail("test@test.com");
 		//deve ser passado para criteria.add
 		SimpleExpression seEmail = Restrictions.eq("email", usuario.getEmail());
 		SimpleExpression seSenha = Restrictions.eq("senha", usuario.getSenha());
-		SimpleExpression seAtivo = Restrictions.eq("ativo", Boolean.TRUE);
 		
 		//when
 		when(session.createCriteria(daoTest.getPersistentClass())).thenReturn(criteria);
 		when(criteria.add(any(seEmail.getClass()))).thenReturn(criteria);
 		when(criteria.add(any(seSenha.getClass()))).thenReturn(criteria);
-		//TODO: deve recompor logica de ativo
-		//TODO: deve criar lógica por token para validar ativo e autorizado
-		//when(criteria.add(any(seAtivo.getClass()))).thenReturn(criteria);
 		when(criteria.uniqueResult()).thenReturn(null);
 		
 		//then
@@ -57,9 +55,6 @@ public class DefaultUsuarioDaoTest extends GenericTest {
 		assertNull("deve conter algo",exists);
 		
 		verify(session).createCriteria(daoTest.getPersistentClass());
-		//TODO: deve recompor logica de ativo
-		//TODO: deve criar lógica por token para validar ativo e autorizado
-		//verify(criteria, times(3)).add(any(seEmail.getClass()));
 		verify(criteria).uniqueResult();
 		
 	}
@@ -78,9 +73,6 @@ public class DefaultUsuarioDaoTest extends GenericTest {
 		when(session.createCriteria(daoTest.getPersistentClass())).thenReturn(criteria);
 		when(criteria.add(any(seEmail.getClass()))).thenReturn(criteria);
 		when(criteria.add(any(seSenha.getClass()))).thenReturn(criteria);
-		//TODO: deve recompor logica de ativo
-		//TODO: deve criar lógica por token para validar ativo e autorizado
-		//when(criteria.add(any(seAtivo.getClass()))).thenReturn(criteria);
 		when(criteria.uniqueResult()).thenReturn(new Usuario());
 		
 		//then
@@ -89,9 +81,6 @@ public class DefaultUsuarioDaoTest extends GenericTest {
 		assertNotNull("deve conter algo",exists);
 		
 		verify(session).createCriteria(daoTest.getPersistentClass());
-		//TODO: deve recompor logica de ativo
-		//TODO: deve criar lógica por token para validar ativo e autorizado
-		//verify(criteria, times(3)).add(any(seEmail.getClass()));
 		verify(criteria).uniqueResult();
 		
 	}

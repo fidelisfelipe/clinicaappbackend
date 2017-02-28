@@ -107,6 +107,14 @@ public class PacientesController {
 		result.use(Results.json())
 				.from(logicTipoExame.listAll(), "tipoExameList").serialize();
 	}
+	
+	@Consumes(value = "application/json", options = WithoutRoot.class)
+	@Get
+	@Path("/consultaList")
+	public void consultaList(Paciente paciente) {
+		result.use(Results.json())
+				.from(logic.load(paciente.getId()).getConsultaList(), "consultaList").serialize();
+	}
 
 	@Consumes(value = "application/json")
 	@Post
