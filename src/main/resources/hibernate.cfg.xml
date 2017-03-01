@@ -50,6 +50,7 @@
 		
 		<mapping class="br.com.caelum.vraptor.backend.model.Paciente" />
 		<mapping class="br.com.caelum.vraptor.backend.model.Consulta" />
+		<mapping class="br.com.caelum.vraptor.backend.model.Anamnese" />
 
 		<mapping class="br.com.caelum.vraptor.backend.model.Menu" />
 		<mapping class="br.com.caelum.vraptor.backend.model.Recurso" />

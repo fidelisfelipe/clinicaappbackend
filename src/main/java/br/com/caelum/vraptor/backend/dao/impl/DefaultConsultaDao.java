@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 import br.com.caelum.vraptor.backend.model.Consulta;
+import br.com.caelum.vraptor.backend.model.Paciente;
 import br.com.caelum.vraptor.backend.util.PreconditionUtil;
 
 /**
@@ -35,17 +36,8 @@ public class DefaultConsultaDao extends DefaultGenericDao<Consulta> {
 	 * @return
 	 */
 	public Consulta existe(Consulta consulta) {
-		PreconditionUtil.isNotNullDoThrowsIllegalArgumentException(consulta);
-		return (Consulta) getSession().createCriteria(Consulta.class)
-				.add(Restrictions.eq("paciente.id", consulta.getPaciente().getId()))
-				.add(Restrictions.eq("data", consulta.getData())).uniqueResult();
-	}
-
-	public List<Consulta> loadPorPaciente(Long pacienteId) {
-		PreconditionUtil.isNotNullDoThrowsIllegalArgumentException(pacienteId);
-		return (List<Consulta>) getSession().createCriteria(Consulta.class)
-				.add(Restrictions.eq("paciente.id", pacienteId)).list();
-		
+		//not implements exists 
+		return null;
 	}
 
 }

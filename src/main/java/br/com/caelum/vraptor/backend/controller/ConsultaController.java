@@ -11,9 +11,11 @@ import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Put;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.backend.business.AnamneseLogic;
 import br.com.caelum.vraptor.backend.business.ConsultaLogic;
 import br.com.caelum.vraptor.backend.business.PacienteLogic;
 import br.com.caelum.vraptor.backend.business.exception.NegocioException;
+import br.com.caelum.vraptor.backend.model.Anamnese;
 import br.com.caelum.vraptor.backend.model.Consulta;
 import br.com.caelum.vraptor.backend.model.Paciente;
 import br.com.caelum.vraptor.view.Results;
@@ -29,25 +31,31 @@ public class ConsultaController {
 	private Result result;
 	private ConsultaLogic logic;
 	private PacienteLogic logicPaciente;
+	private AnamneseLogic logicAnamnese;
 
 	protected ConsultaController() {
 	}
 	
 	@Inject
-	public ConsultaController (Result result, ConsultaLogic logic, PacienteLogic logicPaciente){
+	public ConsultaController (Result result, ConsultaLogic logic, PacienteLogic logicPaciente, AnamneseLogic logicAnamnese){
 		this.result = result;
 		this.logic = logic;
 		this.logicPaciente = logicPaciente;
+		this.logicAnamnese = logicAnamnese;
 	}
 	@Transactional
 	@Consumes("application/json")
 	@Post
 	@Path("/add")
 	public void consultaAdd(Consulta consulta, Long pacienteId){
-		Paciente paciente = logicPaciente.load(pacienteId);
-		consulta.setPaciente(paciente);
 		try {
+			Anamnese anamnese = new Anamnese();
+			this.logicAnamnese.persist(anamnese);
+			consulta.setAnamnese(anamnese);
 			this.logic.persist(consulta);
+			Paciente paciente = logicPaciente.load(pacienteId);
+			paciente.getConsultaList().add(consulta);
+			this.logicPaciente.update(paciente);
 			this.result.use(Results.json()).from("OK").serialize();
 		} catch (NegocioException  e) {
 			this.result.use(Results.http()).setStatusCode(409);
@@ -64,13 +72,14 @@ public class ConsultaController {
 	@Get
 	@Path("/{consulta.id}")
 	public void consultaLoad(Consulta consulta) {
-		this.result.use(Results.json()).from(this.logic.load(consulta.getId()), "consulta").serialize();
+		this.result.use(Results.json()).from(this.logic.load(consulta.getId()), "consulta").recursive().serialize();
 	}
 	@Consumes("application/json")
 	@Get
 	@Path("/por/paciente/{paciente.id}")
 	public void consultaListPorPaciente(Paciente paciente) {
-		this.result.use(Results.json()).from(this.logic.loadPorPaciente(paciente.getId()), "consultaList").serialize();
+		paciente = this.logicPaciente.load(paciente.getId());
+		this.result.use(Results.json()).from(paciente.getConsultaList(), "consultaList").serialize();
 	}
 	@Consumes("application/json")
 	@Put

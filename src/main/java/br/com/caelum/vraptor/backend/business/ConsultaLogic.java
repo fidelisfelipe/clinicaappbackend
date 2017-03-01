@@ -57,12 +57,6 @@ public class ConsultaLogic {
 	}
 
 	public void verificarDadosOrigatoriosDefault(Consulta consulta) throws NegocioException {
-		if(consulta.getPaciente() == null){
-			throw new NegocioException(INFORME_O_CAMPO_OBRIGATORIO);
-		}
-	}
-
-	public List<Consulta> loadPorPaciente(Long pacienteId) {
-		return consultas.loadPorPaciente(pacienteId);
+		//not implemented requirements
 	}
 }

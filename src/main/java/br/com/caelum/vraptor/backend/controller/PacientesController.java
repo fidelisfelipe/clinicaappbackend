@@ -107,6 +107,27 @@ public class PacientesController {
 		result.use(Results.json())
 				.from(logicTipoExame.listAll(), "tipoExameList").serialize();
 	}
+	@Consumes(value = "application/json", options = WithoutRoot.class)
+	@Get
+	@Path("/tipoExameList/por/paciente/{paciente.id}")
+	public void tipoExameListPorPaciente(Paciente paciente) {
+		// retorna os exames do paciente
+		// logic.load(paciente.getId()).getResultadoList()
+		
+		List<ResultadoExame> resultadoList = new ArrayList<ResultadoExame>(); 
+		paciente = logic.load(paciente.getId());
+		
+		if(paciente.getResultadoList() != null)
+		resultadoList.addAll(paciente.getResultadoList());
+		
+		List<TipoExame> tipoExameList = new ArrayList<TipoExame>();
+		
+		for (ResultadoExame result : resultadoList) {
+			tipoExameList.add(result.getExame().getTipo());
+		}
+		
+		result.use(Results.json()).from(tipoExameList, "tipoExameList").serialize();
+	}
 	
 	@Consumes(value = "application/json", options = WithoutRoot.class)
 	@Get
