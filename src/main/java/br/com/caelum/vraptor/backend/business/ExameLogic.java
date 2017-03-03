@@ -62,4 +62,8 @@ public class ExameLogic {
 			throw new NegocioException(INFORME_O_CAMPO_OBRIGATORIO);
 		}
 	}
+
+	public List<Exame> listAll(TipoExame tipoExame) {
+		return exames.listAll(tipoExame);
+	}
 }

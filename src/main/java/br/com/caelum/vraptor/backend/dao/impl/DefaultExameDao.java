@@ -47,5 +47,10 @@ public class DefaultExameDao extends DefaultGenericDao<Exame> {
 		return (List<Exame>)getSession().createCriteria(Exame.class)
 				.add(Restrictions.eq("tipo.id", tipo.getId())).list();
 	}
+
+	public List<Exame> listAll(TipoExame tipoExame) {
+		return (List<Exame>)getSession().createCriteria(Exame.class)
+				.add(Restrictions.eq("tipo.id", tipoExame.getId())).list();
+	}
 	
 }

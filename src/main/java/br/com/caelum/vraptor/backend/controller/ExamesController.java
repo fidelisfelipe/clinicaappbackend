@@ -80,9 +80,10 @@ public class ExamesController {
 	
 	@Consumes(value = "application/json", options = WithoutRoot.class)
 	@Get
-	@Path("/siglaalllist")
-	public void siglaAllList() {
-		List<Exame> list = logic.listAll();
+	@Path("/siglaalllist/por/tipoexame/{tipoExame.id}")
+	public void siglaAllList(TipoExame tipoExame) {
+		tipoExame = logicTipoExame.load(tipoExame.getId());
+		List<Exame> list = logic.listAll(tipoExame);
 		List<String> siglaAllList = new ArrayList<String>();
 		
 		for (Exame exame : list) {

@@ -134,6 +134,7 @@ public class UsuariosController {
 		//result.on(HibernateException.class).forwardTo(this).fail();
 		Usuario persistente = logic.load(usuario.getId());
 		persistente.setNome(usuario.getNome());
+		persistente.setAtivo(true);
 		logic.update(usuario);
 		usuario.setAuthorized(true);
 		this.result.use(Results.json()).from(usuario, "userCurrent").serialize();
