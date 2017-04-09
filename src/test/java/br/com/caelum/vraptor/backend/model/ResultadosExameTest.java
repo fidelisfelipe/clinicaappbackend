@@ -3,6 +3,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -21,7 +22,7 @@ public class ResultadosExameTest extends GenericTest {
 	@Before
 	public void setUp(){
 	}
-
+	
 	/**
 	 * Cria dois Resultados de Exame para um paciente
 	 */

@@ -1,6 +1,8 @@
 package br.com.caelum.vraptor.backend.model;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -15,8 +17,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+
 @Entity
-public class ResultadoExame implements Serializable{
+public class ResultadoExame implements Serializable, Comparator<ResultadoExame>{
 
 	/**
 	 * UUID
@@ -63,6 +66,26 @@ public class ResultadoExame implements Serializable{
 	}
 	public void setExame(Exame exame) {
 		this.exame = exame;
+	}
+	@Override
+	public int compare(ResultadoExame arg0, ResultadoExame arg1) {
+		Calendar data1 = Calendar.getInstance();
+		data1.setTime(arg0.getData());
+		
+		Calendar data2 = Calendar.getInstance();
+		data2.setTime(arg1.getData());
+		
+		boolean maior =  data1.before(data2);
+		boolean menor = data1.after(data2);
+		//boolean igual = data1.equals(data2);
+		
+		if(maior){
+			return 1;
+		}else if(menor){
+			return -1;
+		}else{
+			return 0;
+		}
 	}
 	
 

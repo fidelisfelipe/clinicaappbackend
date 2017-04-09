@@ -5,7 +5,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
@@ -167,11 +170,16 @@ public class PacientesController {
 				resultadoExameList.add(resultado);
 			}
 		}
-
+		orderByDate(resultadoExameList);
+		
 		result.use(Results.json())
 				.from(resultadoExameList, "resultadoExameList").recursive()
 				.serialize();
 	}
+	private void orderByDate(List<ResultadoExame> resultadoExameList) {
+		//not implemented
+	}
+
 	@Transactional
 	@Consumes("application/json")
 	@Post
