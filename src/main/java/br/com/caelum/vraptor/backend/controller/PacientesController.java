@@ -1,14 +1,11 @@
 package br.com.caelum.vraptor.backend.controller;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
@@ -17,7 +14,6 @@ import javax.transaction.Transactional;
 
 import br.com.caelum.vraptor.Consumes;
 import br.com.caelum.vraptor.Controller;
-import br.com.caelum.vraptor.Delete;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
@@ -26,7 +22,6 @@ import br.com.caelum.vraptor.backend.business.ExameLogic;
 import br.com.caelum.vraptor.backend.business.PacienteLogic;
 import br.com.caelum.vraptor.backend.business.ResultadoExameLogic;
 import br.com.caelum.vraptor.backend.business.TipoExameLogic;
-import br.com.caelum.vraptor.backend.model.Exame;
 import br.com.caelum.vraptor.backend.model.Paciente;
 import br.com.caelum.vraptor.backend.model.ResultadoExame;
 import br.com.caelum.vraptor.backend.model.TipoExame;
@@ -177,14 +172,30 @@ public class PacientesController {
 				.serialize();
 	}
 	private void orderByDate(List<ResultadoExame> resultadoExameList) {
-		//not implemented
+		Collections.sort( resultadoExameList , new Comparator<ResultadoExame>() {    
+		     public int compare(ResultadoExame o1, ResultadoExame o2) {    
+		         return o1.getData().compareTo(o2.getData());    
+		        }    
+		    }  
+		);
 	}
-
+	
+	@Transactional
+	@Consumes("application/json")
+	@Post
+	@Path("/resultado/update")
+	
+	public void resultadoUpdate(ResultadoExame resultado, Paciente paciente) {
+		// load paciente
+		paciente = logic.load(paciente.getId());
+		logicResultadoExame.update(resultado);
+		this.result.use(Results.json()).from("OK").serialize();
+	}
+	
 	@Transactional
 	@Consumes("application/json")
 	@Post
 	@Path("/resultado/add")
-	
 	public void resultadoAdd(ResultadoExame resultado, Paciente paciente, boolean clearValue) {
 		// load paciente
 		paciente = logic.load(paciente.getId());
@@ -213,12 +224,13 @@ public class PacientesController {
 					
 					exist = true;
 				}
+				
 				this.result.use(Results.json()).from("OK").serialize();
 				break;
 			}
 		}
 		
-		
+		//add novo
 		if(!exist){
 			// cast persistence
 			resultado.setExame(logicExame.load(resultado.getExame().getId()));
@@ -233,7 +245,6 @@ public class PacientesController {
 		}
 
 	}
-
 	@Transactional
 	@Consumes("application/json")
 	@Post
@@ -245,9 +256,38 @@ public class PacientesController {
 		paciente.getResultadoList().remove(resultado);
 		logic.update(paciente);
 		this.logicResultadoExame.remove(resultado);
-
+		
 		this.result.use(Results.json()).from("OK").serialize();
 	}
+	
+	@Transactional
+	@Consumes("application/json")
+	@Post
+	@Path("/resultado/remove/por/data")
+	public void resultadoRemovePorData(Date data, Paciente paciente) {
+		paciente = logic.load(paciente.getId());
+		List<ResultadoExame> atualList = paciente.getResultadoList();
+		List<ResultadoExame> removerList = new ArrayList<ResultadoExame>();
+		for (ResultadoExame result : atualList) {
+			if(result.getData().equals(data)){
+				removerList.add(result);
+			}
+		}
+		
+		for (ResultadoExame resultado : removerList) {
+			logicResultadoExame.delete(resultado);
+		}
+		
+		for (ResultadoExame resultado : removerList) {
+			logicResultadoExame.delete(resultado);
+			atualList.remove(resultado);
+		}
+		
+		logic.update(paciente);
+		
+		this.result.use(Results.json()).from("OK").serialize();
+	}
+	
 
 	@Transactional
 	@Consumes("application/json")

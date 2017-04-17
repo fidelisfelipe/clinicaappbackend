@@ -1,5 +1,6 @@
 package br.com.caelum.vraptor.backend.business;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -57,4 +58,5 @@ public class ResultadoExameLogic {
 			throw new NegocioException(INFORME_O_CAMPO_OBRIGATORIO);
 		}
 	}
+
 }
