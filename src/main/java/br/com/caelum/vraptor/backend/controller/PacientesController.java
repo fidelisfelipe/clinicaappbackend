@@ -184,13 +184,27 @@ public class PacientesController {
 	@Consumes("application/json")
 	@Post
 	@Path("/resultado/update")
-	
 	public void resultadoUpdate(ResultadoExame resultado, Paciente paciente) {
 		// load paciente
 		paciente = logic.load(paciente.getId());
 		logicResultadoExame.update(resultado);
 		this.result.use(Results.json()).from("OK").serialize();
 	}
+	@Transactional
+	@Consumes("application/json")
+	@Post
+	@Path("/dataExame/update")
+	public void dataUpdate(Date old, ResultadoExame resultado, Paciente paciente) {
+		// load exames
+		List<ResultadoExame> exameList = logic.load(paciente.getId()).getResultadoList();
+		for (ResultadoExame resultadoExame : exameList) {
+			if(resultadoExame.getData().equals(old)){
+				resultadoExame.setData(resultado.getData());
+			}
+		}
+		this.result.use(Results.json()).from("OK").serialize();
+	}
+	
 	
 	@Transactional
 	@Consumes("application/json")
