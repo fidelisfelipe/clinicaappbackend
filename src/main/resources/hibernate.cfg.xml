@@ -17,9 +17,9 @@
 
 		<!-- heroku -->
 		
- 		<property name="hibernate.connection.url">jdbc3:postgresql://ec2-54-221-244-196.compute-1.amazonaws.com/d2d33ldmg0i1b1</property> 
- 		<property name="hibernate.connection.username">yoxaozarjsqcqa</property> 
- 		<property name="hibernate.connection.password">12680ebc252b95c12dde5351e05f03eff1c27c4bb82259906c02c36df8bff569</property> 
+ 		<property name="hibernate.connection.url">jdbc3:postgresql://ec2-23-23-237-68.compute-1.amazonaws.com/d88arkm4uge8g1</property> 
+ 		<property name="hibernate.connection.username">agsnsjddjlfghi</property> 
+ 		<property name="hibernate.connection.password">2b50b8d8cd7aabfe4d095bcaee110f1023a45830ff991f1e7b36f2632448f97b</property> 
 
 		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
