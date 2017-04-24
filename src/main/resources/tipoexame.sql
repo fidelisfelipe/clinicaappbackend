@@ -4,7 +4,6 @@ insert into public.tipoexame(nome)VALUES ('Dosagens Hormonais');
 insert into public.tipoexame(nome)VALUES ('Lipidogramas');
 insert into public.tipoexame(nome)VALUES ('Parametros de Acompanhamento do HIV');
 insert into public.tipoexame(nome)VALUES ('Parasitológico');
-insert into public.tipoexame(nome)VALUES ('Parasitológico');
 insert into public.tipoexame(nome)VALUES ('Bioquímica');
 insert into public.tipoexame(nome)VALUES ('Provas de Função Hepática');
 insert into public.tipoexame(nome)VALUES ('Exames Diretos e Culturas');
